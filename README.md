@@ -51,7 +51,7 @@ on your terminal where xx:xx:xx:xx:xx:xx is your device ssid
 3. Run 
 
 ```bash
-./btcon 
+btcon 
 ```
 or
 
