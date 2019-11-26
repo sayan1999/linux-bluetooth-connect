@@ -1,3 +1,9 @@
 #!/bin/bash
-cd /home/sayan/.custom-commands/lib/headph-bluetooth
-./headph-bluetooth
+cd ./../btcon
+
+if test $# -ne 0
+then 
+	./btcon $1
+else
+./btcon
+fi

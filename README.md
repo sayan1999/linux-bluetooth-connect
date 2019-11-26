@@ -44,7 +44,7 @@ on your terminal where xx:xx:xx:xx:xx:xx is your device ssid
 3. As the new terminal appears, press enter onto it and the bluetooth device with given ssid should have been connected to your PC so far by now.
 
 ### Run as a command without navigating into the directory
-1. Open the command folder inside this repo and open bash-file named "btcon" and replace line 2: "cd /home/sayan/.custom-commands/lib/btcon" with "cd path/to/btcon/dir/in/this/repo", save changes
+1. Open the command folder inside this repo and open bash-file named "btcon" and replace line 2: "cd /home/sayan/.custom-commands/lib/btcon" with "cd path/to/btcon/dir/", save changes
 
 2. Move that bash-file anywhere next to your $PATH variable, for me it's /home/sayan/.custom-commands/bin which is added to my $PATH variable
 
@@ -56,7 +56,7 @@ on your terminal where xx:xx:xx:xx:xx:xx is your device ssid
 or
 
 ```bash
-./btcon xx:xx:xx:xx:xx:xx
+btcon xx:xx:xx:xx:xx:xx
 ```
 from anywhere on your terminal. You can also alias different device IDs in your .bashrc file such as 
 "alias headset=xx:xx:xx:xx:xx:xx" and run
