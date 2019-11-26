@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /home/sayan/.custom-commands/lib/headph-bluetooth
+./headph-bluetooth

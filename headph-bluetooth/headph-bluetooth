@@ -1,0 +1,24 @@
+#!/bin/bash
+#change this ssid with your device ssid
+device="FC:58:FA:D8:60:95" 
+
+#catches the ssid passed as argument and overrides the default ssid initialized
+if test $# -ne 0
+then 
+	device=$1
+fi
+
+#temporary variable to write logs
+tmpfile=$(mktemp /tmp/headph-bluetooth.XXXXXX)
+
+#removes temporary variable on abnormal or normal exit from script
+trap "rm -f $tmpfile" 0 2 3 15
+
+rfkill unblock bluetooth 
+
+coproc bluetoothctl 2>&1 1>$tmpfile 
+echo -e 'power on' >&${COPROC[1]}
+echo -e "pair ${device}" >&${COPROC[1]}
+echo -e "connect ${device}" >&${COPROC[1]}
+
+gnome-terminal --wait -- bash -c "python ./UTF-8_to_string_decode.py $tmpfile && echo 'Press Enter to exit~> '&& read var && exit"
