@@ -1,5 +1,5 @@
 # linux_bt_connect
-A script that helps connect from to a bluetooth device fast with a known device ssid
+A script that helps fast connect to a bluetooth device with a known device ssid.
 
 ## Dependencies
 You need to have bluetoothctl package and python(both python2 and python3 are compatible) package installed 
