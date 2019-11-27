@@ -10,7 +10,7 @@ sudo apt install bluez
 ```
 
 ## Installation Guide
-Check, if bluetoothctl is installed on your machine.
+Check, if bluez is installed on your machine.
 
 The directory btcon can be moved to anywhere you want, such as I have put it
 in "/home/sayan/.custom-commands/lib/" where I keep all my scripts in use.
