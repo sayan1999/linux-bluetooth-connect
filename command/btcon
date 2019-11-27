@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ./../btcon
+cd /home/sayan/Documents/btcon
 
 if test $# -ne 0
 then 
