@@ -2,15 +2,15 @@
 A script that helps fast connect to a bluetooth device with a known device ssid.
 
 ## Dependencies
-You need to have bluetoothctl package and python(both python2 and python3 are compatible) package installed 
-You can install them on linux with following command:
+You need to have [blueZ](https://launchpad.net/ubuntu/bionic/+package/bluez) package installed 
+You can install it on ubuntu with following command:
 
 ```bash
-sudo apt install bluetoothctl python
+sudo apt install bluez
 ```
 
 ## Installation Guide
-Check if bluetoothctl and python are installed on your machine.
+Check, if bluetoothctl is installed on your machine.
 
 The directory btcon can be moved to anywhere you want, such as I have put it
 in "/home/sayan/.custom-commands/lib/" where I keep all my scripts in use.
