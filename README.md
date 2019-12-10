@@ -28,6 +28,8 @@ Check, if bluez is installed on your machine.
 2. Run the following commands on the same terminal.
 
 ```bash
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/lib
 cp ./command/btcon ~/.local/bin/btcon
 chmod +x ~/.local/bin/btcon
 cp ./btcon/btcon ~/.local/lib/btcon
