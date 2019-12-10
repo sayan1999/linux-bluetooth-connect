@@ -21,11 +21,11 @@ Check, if bluez is installed on your machine.
 
 2. Add $HOME/.local/bin to your $PATH.
 
-## Manual Installation
+### Manual Installation
 
-First open terminal and cd into the project directory. Then,
+1. First open terminal and cd into the project directory. Then,
 
-Run the following commands on the same terminal.
+2. Run the following commands on the same terminal.
 
 ```bash
 cp ./command/btcon ~/.local/bin/btcon
@@ -33,9 +33,9 @@ chmod +x ~/.local/bin/btcon
 cp ./btcon/btcon ~/.local/lib/btcon
 chmod +x ~/.local/lib/btcon
 ```
-Add $HOME/.local/bin to your $PATH
+3. Add $HOME/.local/bin to your $PATH
 
-##Usage
+## Usage
 
 btcon 						[connects to your default device, set accordingly the method 
 							mentioned under Optional header.]
