@@ -37,16 +37,32 @@ function connect(){
 	gnome-terminal --wait -- bash -c "tail -f $tmpfile && echo 'Press ctr + c to exit~> ' && exit"
 }
 
+function reconnect(){
+	rfkill unblock bluetooth 
+
+	cur_device=""
+
+	tmpvar=$(mktemp /tmp/headph-bluetooth.XXXXXX)
+	trap "rm -f $tmpvar" 0 2 3 15
+	coproc bluetoothctl 2>&1 1>$tmpvar
+	echo -e "list" >&${COPROC[1]}
+	sleep 2
+	# cat $tmpvar
+	cur_device=`cat $tmpvar | grep -i '[NEW] Controller ..:..:..:..:..:.. Instantinopaul'| awk '{print $3}'`
+	echo "this is $cur_device"
+	connect $cur_device
+	exit
+}
 
 #config file path
 FILE='/home/sayan/.btcon/btcon'
 
-while getopts n: options; do
+while getopts n:r options; do
 	case $options in
 		n) enlist $OPTARG $FILE;;
+		r) reconnect;;
 	esac
 done
-
 
 device="FC:58:FA:D8:60:95"
 	#get device names from config file
