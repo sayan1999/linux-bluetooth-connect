@@ -37,11 +37,10 @@ chmod +x ~/.local/lib/btcon
 
 ## Usage
 
-btcon 						[connects to your default device, set accordingly the method 
-							mentioned under Optional header.]
+| Command | Description |
+| --- | --- |
+| btcon | [connects to your default device, set accordingly the method mentioned under optional header] |
 
-btcon -n xx:xx:xx:xx:xx:xx	[adds new device ssid to the config file $HOME/.btcon/btcon (
-							creates if not existing)]
+| btcon -n xx:xx:xx:xx:xx:xx | [adds new device ssid to the config file $HOME/.btcon/btcon (creates if not existing)]|
 
-btcon <num> 				[reads ssid of <num>th device in the config file
-							$HOME/.btcon/btcon and connects to it]
+| btcon <num> | [reads ssid of <num>th device in the config file $HOME/.btcon/btcon and connects to it] |
