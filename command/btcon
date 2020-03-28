@@ -1,3 +1,0 @@
-#!/bin/bash
-cd /home/sayan/.custom-commands/lib/btcon
-./btcon "$@"
