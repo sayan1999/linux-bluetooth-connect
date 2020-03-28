@@ -1,0 +1,232 @@
+#!/bin/bash
+# Change this ssid with your device ssid
+
+# Default device
+device="FC:58:FA:D8:60:95"
+
+
+red='\033[0;31m'
+cyan='\033[0;36m'
+blue='\033[0;34m'
+endcolor='\033[m'
+yellow='\033[0;33m'
+
+# Print usage
+function usage(){
+	printf $blue"Usage: btcon [options] [args] | btcon [args]
+
+OPTIONS:
+-c xx:xx:xx:xx:xx:xx : Connects to device with ssid xx:xx:xx:xx:xx:xx
+-d : Turns down bluetooth
+-e xx:xx:xx:xx:xx:xx : Enlists new device in the configuration list and display config file
+-s <device-name> : Searches for device of above name and connects to it
+-z <device-name> : Searches for device of above name, enlists it and connects to it
+-p : Show all devices elisted
+
+ARGS:
+<integer> : Connects to the device listed as the <integer>th device in the file
+"$endcolor"\n"
+}
+
+
+# Function to add new devices to config file
+function enlist(){
+	
+
+	if [ "$#" -ne 2 ]; then    	
+		printf $red"Illegal number of parameters"$endcolor"\n"
+
+	else		
+		
+		if [ ! -e "$2" ]; then
+    		mkdir -p "${2%/*}" && touch "$2"
+		fi
+
+		lc=`wc -l $2 | awk '{print $1}'`
+		echo devices$lc=\"$1\" >> $2
+		printf $yellow"devices$lc=$1"$blue" added to $2\n\nCurrent devices are: \n"$endcolor
+		printf $cyan
+		cat $2
+		printf $endcolor
+	fi
+}
+
+# Print config file
+function showfile(){
+	printf $blue'Listing enrolled devices\n'
+	cat $FILE
+	printf $endcolor
+}
+
+# Turn down bluetooth
+function disconnect(){
+	# Temporary variable to write logs
+	tmpfile=$(mktemp /tmp/btcon.XXXXXX)
+
+	coproc bluetoothctl 2>&1 1>$tmpfile
+	echo -e 'power off' >&${COPROC[1]}
+
+	printf $red'Press ctr + c to exit~> (default sleep 10s)'$endcolor
+	sleep 10
+	
+	kill $COPROC_PID
+}
+
+# Connect to the SSID
+function connect(){
+	
+	device=$1
+
+	# Temporary variable to write logs
+	tmpfile=$(mktemp /tmp/btcon.XXXXXX)
+
+	# Turning on bluetooth and scan
+	coproc bluetoothctl 2>&1 1>$tmpfile
+	echo -e 'power on' >&${COPROC[1]}
+	echo -e 'scan on' >&${COPROC[1]}
+
+	gnome-terminal --wait -- bash -c "tail -f $tmpfile &&\
+	printf $blue'Powering on bluetooth...\n' &&\
+	echo 'Press ctr + c to exit~> ' && exit"
+
+	# Connecting with device
+	echo -e "pair ${device}" >&${COPROC[1]}
+	echo -e "connect ${device}" >&${COPROC[1]}
+
+	gnome-terminal --wait -- bash -c "tail -f $tmpfile &&\
+	printf $blue'Connecting to '$device'...\n' &&\
+	echo 'Press ctr + c to exit~> ' && exit"
+
+	echo -e 'yes' >&${COPROC[1]}
+	kill $COPROC_PID
+}
+
+
+# Reconnect to the currently connected device
+function reconnect(){
+	# Temporary variable to write logs
+	tmpvar=$(mktemp /tmp/headph-bluetooth.XXXXXX)
+
+	# List command for bluetooth coprocess
+	coproc bluetoothctl 2>&1 1>$tmpvar
+	echo -e "list" >&${COPROC[1]}
+		
+	gnome-terminal --wait -- bash -c "tail -f $tmpvar &&\
+	printf $blue'Listing Controller and Devices' &&\
+	echo 'Press ctr + c to exit~> ' && exit"
+
+	# Greping current device ID
+	cur_device_name=`cat $tmpvar | grep '# list'| sed 's/.*\[\([^]]*\)].*/\1/'`
+	cur_device_id=`cat $tmpvar | grep "$cur_device_name" | head -1 | awk '{print $4}'`
+	
+	printf $blue'Reconnecting '$cur_device_name' ID '$cur_device_id$endcolor
+
+	echo -e 'power off' >&${COPROC[1]}
+	kill $COPROC_PID
+
+	ps -ef | grep $COPROC_PID | grep -v grep
+
+
+	# Try reconnecting
+	connect $cur_device_id
+}
+
+# Searches for device of above name and connects to it
+function searchnConn(){
+	device_by_name=$1
+
+	# Temporary variable to write logs
+	tmpvar=$(mktemp /tmp/headph-bluetooth.XXXXXX)
+
+	# List command for bluetooth coprocess
+	coproc bluetoothctl 2>&1 1>$tmpvar
+	echo -e 'power on' >&${COPROC[1]}
+	echo -e 'scan on' >&${COPROC[1]}
+	
+	gnome-terminal --wait -- bash -c "printf $blue'Listing Controller and Devices' &&\
+	tail -f $tmpvar &&\
+	printf $red'Press ctr + c to exit~> '$endcolor && exit"	
+
+	# Greping current device ID
+	device_id=`cat $tmpvar | grep -i "$device_by_name" | head -1 | awk '{print $4}'`
+
+	printf $blue'Connecting '$device_by_name' ID '$device_id$endcolor
+	echo -e 'power off' >&${COPROC[1]}
+	kill $COPROC_PID
+
+	ps -ef | grep $COPROC_PID | grep -v grep
+
+	# Try reconnecting
+	connect $device_id
+}
+
+
+# Searches for device of above name, enlists it and connects to it
+function searchListnConn(){
+	device_by_name=$1
+
+	# Temporary variable to write logs
+	tmpvar=$(mktemp /tmp/headph-bluetooth.XXXXXX)
+
+	# List command for bluetooth coprocess
+	coproc bluetoothctl 2>&1 1>$tmpvar
+	echo -e 'power on' >&${COPROC[1]}
+	echo -e 'scan on' >&${COPROC[1]}
+	
+	gnome-terminal --wait -- bash -c "printf $blue'Listing Controller and Devices' &&\
+	tail -f $tmpvar &&\
+	printf $red'Press ctr + c to exit~> '$endcolor && exit"
+
+	# Greping current device ID
+	device_id=`cat $tmpvar | grep -i "$device_by_name" | head -1 | awk '{print $4}'`
+	
+	printf $blue'Connecting '$device_by_name' ID '$device_id$endcolor
+	echo -e 'power off' >&${COPROC[1]}
+	kill $COPROC_PID
+
+	ps -ef | grep $COPROC_PID | grep -v grep
+
+	enlist $device_id $FILE
+
+	# Try reconnecting
+	connect $device_id
+}
+
+# Config file path
+FILE=$HOME'/.btcon/btcon'
+
+rfkill unblock bluetooth
+
+# Removes temporary variable on abnormal or normal exit from script
+trap "rm -f $tmpfile" 0 2 3 15
+
+while getopts e:c:s:z:prdh options; do
+	case $options in
+		e) enlist $OPTARG $FILE && exit;;
+		c) connect $OPTARG && exit;;
+		r) reconnect && exit;;
+		d) disconnect && exit;;
+		s) searchnConn $OPTARG && exit;;
+		z) searchListnConn $OPTARG && exit;;
+		p) showfile && exit;;
+		h) usage && exit;;
+	esac
+done
+
+# When integer argument is passed
+
+# Get device names from config file
+if test -f "$FILE"; then
+    source $FILE
+fi
+
+# Catches the ssid passed as argument and overrides the default ssid initialized
+if test $# -ne 0
+then 
+	device_name=devices$1
+	device=${!device_name}
+fi
+
+# Try connecting to the device
+connect $device
+exit
