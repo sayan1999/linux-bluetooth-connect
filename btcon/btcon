@@ -2,7 +2,7 @@
 # Change this ssid with your device ssid
 
 # Default device
-device="FC:58:FA:D8:60:95
+device="FC:58:FA:D8:60:95"
 
 
 red='\033[0;31m'
