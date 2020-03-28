@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bas
 #change this ssid with your device ssid
 
 #function to add new devices to config file
