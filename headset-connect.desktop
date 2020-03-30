@@ -6,7 +6,7 @@ Comment=Script to connect to bt headset
 Exec=btcon 0
 Icon=/home/sayan/.icons/bthdphn.png
 Terminal=true
-Actions=Disconnect;Reconnect;;Troubleshoot;;
+Actions=Disconnect;Reconnect;Troubleshoot;
 
 [Desktop Action Disconnect]
 Name=Disconnect
