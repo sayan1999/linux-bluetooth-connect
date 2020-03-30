@@ -22,12 +22,17 @@ OPTIONS:
 -s <device-name> : Searches for device of above name and connects to it
 -z <device-name> : Searches for device of above name, enlists it and connects to it
 -p : Show all devices elisted
+-t : troubleshoot
 
 ARGS:
 <integer> : Connects to the device listed as the <integer>th device in the file
 "$endcolor"\n"
 }
 
+# Trobleshoot
+function troubleshoot(){
+	modprobe btusb && systemctl start bluetooth
+}
 
 # Function to add new devices to config file
 function enlist(){
@@ -200,7 +205,7 @@ rfkill unblock bluetooth
 # Removes temporary variable on abnormal or normal exit from script
 trap "rm -f $tmpfile" 0 2 3 15
 
-while getopts e:c:s:z:prdh options; do
+while getopts e:c:s:z:prdth options; do
 	case $options in
 		e) enlist $OPTARG $FILE && exit;;
 		c) connect $OPTARG && exit;;
@@ -210,6 +215,7 @@ while getopts e:c:s:z:prdh options; do
 		z) searchListnConn $OPTARG && exit;;
 		p) showfile && exit;;
 		h) usage && exit;;
+		t) troubleshoot && exit;;
 	esac
 done
 

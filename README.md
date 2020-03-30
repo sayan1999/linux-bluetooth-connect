@@ -74,8 +74,10 @@ If running the commands doesn't work, re-run them. There are high chances it wil
 If any blocking line appears saying : "Waiting to connect to bluetothhd", Run:
 
 ```bash
-modprobe btusb && systemctl start bluetooth
+btcon -t
 ```
+It runs modprobe btusb && systemctl start bluetooth under the hood so asks for user password
+
 
 
 ### Advanced
