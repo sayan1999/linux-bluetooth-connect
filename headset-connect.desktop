@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Headset Connect
+Comment=Script to connect to bt headset
+Exec=btcon 0
+Icon=$HOME/.icons/bthdphn.png
+Terminal=true
+Actions=Disconnect;Reconnect
+
+[Desktop Action Disconnect]
+Name=Disconnect
+Exec=btcon -d
+
+[Desktop Action Reconnect]
+Name=Reconnect
+Exec=btcon -r

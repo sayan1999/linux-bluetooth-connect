@@ -68,6 +68,27 @@ btcon headset
 on command line.
 
 
+### Troubleshoot
+If running the commands doesn't work, re-run them. There are high chances it will work now.
+
+If any blocking line appears saying : "Waiting to connect to bluetothhd", Run:
+
+```bash
+modprobe btusb && systemctl start bluetooth
+```
+
+
+### Advanced
+
+You can add it as an application to your application menu.
+
+1. Copy the headset-connect.desktop file to your $HOME/.local/share/applications/
+2. Press Alt+f2 to launch Quick Command and run "restart". Now, Headset Connect is in your Application Menu.
+3. Initially, the icon will not have logo, for that open the headset-connect.desktop file and modify 7th line:
+	Icon=/home/sayan/.icons/bthdphn.png
+to-> 
+	Icon=path to downloaded image icon
+
 ### Usage
 
 #### btcon [options] [args] | btcon [args]
