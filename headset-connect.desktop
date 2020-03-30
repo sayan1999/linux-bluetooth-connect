@@ -4,9 +4,9 @@ Encoding=UTF-8
 Name=Headset Connect
 Comment=Script to connect to bt headset
 Exec=btcon 0
-Icon=$HOME/.icons/bthdphn.png
+Icon=/home/sayan/.icons/bthdphn.png
 Terminal=true
-Actions=Disconnect;Reconnect
+Actions=Disconnect;Reconnect;;Troubleshoot;;
 
 [Desktop Action Disconnect]
 Name=Disconnect
@@ -15,3 +15,7 @@ Exec=btcon -d
 [Desktop Action Reconnect]
 Name=Reconnect
 Exec=btcon -r
+
+[Desktop Action Troubleshoot]
+Name=Troubleshoot
+Exec=btcon -t
