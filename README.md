@@ -1,6 +1,7 @@
 # linux_bt_connect
 A script to fast connect to a bluetooth device with known device ssid.
 
+![LINUX BT Connect](previews/linuxbtconnect.png?raw=true "linuxbtconnect.png")
 ## Dependencies
 You need to have [blueZ](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjxyLqyronmAhWmwTgGHfVcCIYQFjAAegQIARAG&url=https%3A%2F%2Fdocs.ubuntu.com%2Fcore%2Fen%2Fstacks%2Fbluetooth%2Fbluez%2Fdocs%2Finstall-bluez&usg=AOvVaw3aNHcDP4xHohr_-uDt2-1I) package installed.
 You can install it on ubuntu with following command:
